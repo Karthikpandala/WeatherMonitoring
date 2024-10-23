@@ -72,49 +72,26 @@
             }
         }
     </style>
-    <script>
-        function getCurrentLocationWeather() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        const lat = position.coords.latitude;
-                        const lon = position.coords.longitude;
-                        window.location.href = `/location?lat=${lat}&lon=${lon}`;
-                    },
-                    function(error) {
-                        switch (error.code) {
-                            case error.PERMISSION_DENIED:
-                                alert("User denied the request for Geolocation. Please enable location services.");
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                alert("Location information is unavailable.");
-                                break;
-                            case error.TIMEOUT:
-                                alert("The request to get user location timed out.");
-                                break;
-                            case error.UNKNOWN_ERROR:
-                                alert("An unknown error occurred.");
-                                break;
-                        }
-                    }
-                );
-            } else {
-                alert('Geolocation is not supported by this browser.');
-            }
-        }
-    </script>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Weather Server</h1>
-        <button onclick="getCurrentLocationWeather()">Get Weather at My Location</button>
-        <form action="/city" method="GET">
+        <h1>Weather Information</h1>
+        <form action="/current-weather" method="GET">
             <select name="city" required>
                 {{#each cities}}
                     <option value="{{this}}">{{this}}</option>
                 {{/each}}
             </select>
-            <button type="submit">Submit</button>
+            <button type="submit">Get Current Weather</button>
+        </form>
+
+        <form action="/past-weather" method="GET">
+            <select name="city" required>
+                {{#each cities}}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+            <button type="submit">Get Past 10 Days Weather</button>
         </form>
     </div>
 </body>

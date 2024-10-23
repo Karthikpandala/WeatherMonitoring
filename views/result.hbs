@@ -7,63 +7,132 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #7ca6d0, #d8dbde);
-            color: #000000;
+            background: linear-gradient(to right, #6a94b2, #d4e7ee);
+            color: #333;
             margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
             text-align: center;
+            padding: 20px;
         }
 
         .container {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            max-width: 400px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
             width: 100%;
         }
 
         h1 {
-            font-size: 2em;
+            font-size: 2.5em;
             margin-bottom: 20px;
+            color: #2c3e50;
         }
 
-        p {
+        h2 {
+            font-size: 1.8em;
+            margin: 20px 0;
+            color: #2980b9;
+        }
+
+        p, li {
             font-size: 1.2em;
             margin: 10px 0;
+            color: #555;
+        }
+
+        .weather-info {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .current-weather, .past-weather {
+            flex: 1;
+            padding: 20px;
+            margin: 0 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
         }
 
         a {
             display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            color: #40b0dd;
-            background-color: white;
+            margin-top: 30px;
+            padding: 12px 25px;
+            color: white;
+            background-color: #3498db;
             border-radius: 5px;
             text-decoration: none;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         a:hover {
-            background-color: #e0e0e0;
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            p, li {
+                font-size: 1em;
+            }
+            a {
+                padding: 10px 20px;
+            }
+            .weather-info {
+                flex-direction: column;
+                align-items: center;
+            }
+            .current-weather, .past-weather {
+                margin: 10px 0;
+                width: 80%; /* Adjusting width for mobile */
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Weather Information for {{weather.city}}</h1>
-        {{#if weather.error}}
-            <p>{{weather.error}}</p>
-        {{else}}
-            <p>Temperature: {{weather.temperature}}</p>
-            <p>Feels Like: {{weather.feels_like}}</p>
-            <p>Condition: {{weather.condition}}</p>
-            <p>Data retrieved at: {{weather.time}}</p>
-        {{/if}}
-        <a href="/">Go Back</a>
+        <h1>Weather for {{city}}</h1>
+        
+        <div class="weather-info">
+            {{#if currentWeather}}
+                <div class="current-weather">
+                    <h2>Current Weather</h2>
+                    <p>Temperature: {{currentWeather.temperature}} °C</p>
+                    <p>Feels like: {{currentWeather.feels_like}} °C</p>
+                    <p>Condition: {{currentWeather.condition}}</p>
+                </div>
+            {{/if}}
+            
+            {{#if weatherHistory}}
+                <div class="past-weather">
+                    <h2>Past 10 Days Weather</h2>
+                    <ul>
+                        {{#each weatherHistory}}
+                            <li>{{date}} - Temperature: {{temperature}} °C, Feels like: {{feels_like}} °C, Condition: {{condition}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+            {{/if}}
+        </div>
+        
+        <a href="/">Go back to home</a>
     </div>
 </body>
 </html>
